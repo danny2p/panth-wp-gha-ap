@@ -52,4 +52,6 @@ jobs:
         pantheon_repo: '${{ secrets.PANTHEON_REPO }}'
       run: |
         git remote add pantheon $pantheon_repo
+        git add .
+        git commit -q -m 'Build assets for dev.'
         git push pantheon HEAD:fe-build
