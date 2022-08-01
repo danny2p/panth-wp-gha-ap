@@ -2,7 +2,6 @@ name: Deploy to Pantheon
 on:
   push:
     branches:
-      - 'build-test'
       - 'master'
       - 'fe-build'
 jobs:
@@ -46,9 +45,8 @@ jobs:
       env:
         pantheon_repo: '${{ secrets.PANTHEON_REPO }}'
       run: |
-        echo "Git Committer Name ${{ github.event.pusher.name }}"
         echo "Git Committer Email ${{ github.event.pusher.email }}"
-        echo "Github Actor $GITHUB_ACTOR" 
+        echo "Github Committer Name $GITHUB_ACTOR" 
         echo "Triggering Branch $GITHUB_REF_NAME"
         git remote add pantheon $pantheon_repo
         git config --global user.email "danny.pfeiffer@pantheon.io"
