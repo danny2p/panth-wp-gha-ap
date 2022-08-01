@@ -1,3 +1,17 @@
+wp-content/themes/yourtheme/assets/*
+
+# :::::::::::::::::::::: cut ::::::::::::::::::::::
+
+###
+### Pantheon site .gitignore section
+###
+### Items above the "cut" line
+### are ignored in the GitHub repository, but committed
+### to the Pantheon repository.### 
+### Items below the "cut" line are still ignored on
+### the Pantheon site. 
+###
+
 # WordPress #
 ############
 wp-config-local.php
