@@ -2,6 +2,7 @@ name: Deploy to Pantheon
 on:
   push:
     branches:
+      - 'build-test'
       - 'master'
       - 'fe-build'
 jobs:
@@ -41,7 +42,7 @@ jobs:
         npm install
       # any other FE build commands here
 
-    - name: deployer
+    - name: Deployer (Git add,commit,push)
       env:
         pantheon_repo: '${{ secrets.PANTHEON_REPO }}'
       run: |
@@ -53,5 +54,5 @@ jobs:
         git config --global user.email "danny.pfeiffer@pantheon.io"
         git config --global user.name "Github Actions"
         git add .
-        git commit -q -m 'Build assets for dev.'
-        git push pantheon HEAD:${{ github.ref_name }}
+        git diff-index --quiet HEAD || git commit -q -m 'Build assets for dev.'
+        git push pantheon HEAD:$GITHUB_REF_NAME
