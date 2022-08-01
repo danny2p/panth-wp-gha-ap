@@ -1,0 +1,50 @@
+name: Deploy to Pantheon
+on:
+  push:
+    branches:
+      - 'fe-build'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install SSH Key
+      uses: shimataro/ssh-key-action@v2
+      with:
+        key: ${{ secrets.PANTHEON_SSH_KEY }}
+        known_hosts: ${{ secrets.KNOWN_HOSTS }}
+        
+    # Install Terminus.
+    - name: Install Terminus
+      uses: pantheon-systems/terminus-github-actions@main
+      with:
+        pantheon-machine-token: ${{ secrets.PANTHEON_MACHINE_TOKEN }}
+
+    - name: Install Terminus Build Tools
+      run: terminus self:plugin:install terminus-build-tools-plugin
+      # terminus build tools plugin enables our .gitignore cutline handling
+
+    # Check Terminus works.
+    - name: Update Ignore File.
+      run: terminus build:gitignore:cut
+
+    - name: Use Node.js 14.
+      uses: actions/setup-node@v3
+      with:
+        node-version: 14.19.0
+
+    # Cache vendor folder
+    - name: Cache vendor folder
+      uses: actions/cache@v2
+      env:
+        cache-name: cache-vendor
+      with:
+        path: ./vendor
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/composer.lock') }}
+
+    - name: deployer
+      env:
+        pantheon_repo: '${{ secrets.PANTHEON_REPO }}'
+      run: |
+        git remote add pantheon $pantheon_repo
+        git push pantheon HEAD:fe-build
