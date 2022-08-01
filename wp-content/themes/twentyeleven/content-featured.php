@@ -20,26 +20,35 @@ global $feature_class;
 
 	<div class="entry-summary">
 		<?php the_excerpt(); ?>
-		<?php wp_link_pages( array( 'before' => '<div class="page-link"><span>' . __( 'Pages:', 'twentyeleven' ) . '</span>', 'after' => '</div>' ) ); ?>
+		<?php
+		wp_link_pages(
+			array(
+				'before' => '<div class="page-link"><span>' . __( 'Pages:', 'twentyeleven' ) . '</span>',
+				'after'  => '</div>',
+			)
+		);
+		?>
 	</div><!-- .entry-content -->
 
 	<footer class="entry-meta">
 		<?php
-			/* translators: used between list items, there is a space after the comma */
-			$tag_list = get_the_tag_list( '', __( ', ', 'twentyeleven' ) );
-			if ( '' != $tag_list ) {
-				$utility_text = __( 'This entry was posted in %1$s and tagged %2$s. Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'twentyeleven' );
-			} else {
-				$utility_text = __( 'This entry was posted in %1$s. Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'twentyeleven' );
-			}
-			printf(
-				$utility_text,
-				/* translators: used between list items, there is a space after the comma */
-				get_the_category_list( __( ', ', 'twentyeleven' ) ),
-				$tag_list,
-				esc_url( get_permalink() ),
-				the_title_attribute( 'echo=0' )
-			);
+		$tags_list = get_the_tag_list( '', wp_get_list_item_separator() );
+
+		if ( $tags_list && ! is_wp_error( $tags_list ) ) {
+			/* translators: 1: Category list, 2: Tag list, 3: Post permalink, 4: Post title. */
+			$utility_text = __( 'This entry was posted in %1$s and tagged %2$s. Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'twentyeleven' );
+		} else {
+			/* translators: 1: Category list, 3: Post permalink, 4: Post title. */
+			$utility_text = __( 'This entry was posted in %1$s. Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'twentyeleven' );
+		}
+
+		printf(
+			$utility_text,
+			get_the_category_list( wp_get_list_item_separator() ),
+			$tags_list,
+			esc_url( get_permalink() ),
+			the_title_attribute( 'echo=0' )
+		);
 		?>
 
 		<?php edit_post_link( __( 'Edit', 'twentyeleven' ), '<span class="edit-link">', '</span>' ); ?>
