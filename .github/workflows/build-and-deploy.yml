@@ -41,7 +41,11 @@ jobs:
       with:
         path: ./vendor
         key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/composer.lock') }}
-
+    - name: node builder
+      run: |
+        npm install
+      # any other FE build commands here
+      
     - name: deployer
       env:
         pantheon_repo: '${{ secrets.PANTHEON_REPO }}'
