@@ -43,9 +43,10 @@ jobs:
         key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/composer.lock') }}
     - name: node builder
       run: |
+        cd wp-content/themes/understrap
         npm install
       # any other FE build commands here
-      
+
     - name: deployer
       env:
         pantheon_repo: '${{ secrets.PANTHEON_REPO }}'
