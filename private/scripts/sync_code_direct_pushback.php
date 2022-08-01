@@ -1,6 +1,7 @@
 <?php
 
 /*
+*
 * helper function to load token for github action 
 * from private file system
 *
@@ -10,6 +11,7 @@
 * ie: /files/private/.build-secrets/tokens.json
 * Contents of tokens.json should be as follows:
 * {"token":"ghp_xxxxxxxxxxxxxxxxxxxxxxxxx"}
+*
 */
 
 function load_git_secrets($gitSecretsFile) {
