@@ -2,7 +2,7 @@ name: Deploy to Pantheon
 on:
   push:
     branches:
-      - 'fe-build'
+      - 'master'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -56,4 +56,4 @@ jobs:
         git config --global user.name "Github Actions"
         git add .
         git commit -q -m 'Build assets for dev.'
-        git push pantheon HEAD:fe-build
+        git push pantheon HEAD:master
