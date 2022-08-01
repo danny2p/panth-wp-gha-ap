@@ -1,3 +1,9 @@
 # Put overrides to your pantheon.upstream.yml file here.
 # For more information, see: https://pantheon.io/docs/pantheon-yml/
 api_version: 1
+workflows:
+  sync_code:
+    after:
+      - type: webphp
+        description: Push back to github upon Pantheon code sync.
+        script: private/scripts/sync_code_direct_pushback.php

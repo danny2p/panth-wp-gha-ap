@@ -1,0 +1,58 @@
+name: Deploy to Pantheon
+on:
+  push:
+    branches:
+      - 'build-test'
+      - 'master'
+      - 'fe-build'
+jobs:
+  build:
+    if: github.actor != 'Pantheon' && github.actor != 'Autopilot' 
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install SSH Key
+      uses: shimataro/ssh-key-action@v2
+      with:
+        key: ${{ secrets.PANTHEON_SSH_KEY }}
+        known_hosts: ${{ secrets.KNOWN_HOSTS }}
+        
+    # Install Terminus.
+    - name: Install Terminus
+      uses: pantheon-systems/terminus-github-actions@main
+      with:
+        pantheon-machine-token: ${{ secrets.PANTHEON_MACHINE_TOKEN }}
+
+    - name: Use Node.js 14.
+      uses: actions/setup-node@v3
+      with:
+        node-version: 14.19.0
+
+    # Cache vendor folder
+    - name: Cache vendor folder
+      uses: actions/cache@v2
+      env:
+        cache-name: cache-vendor
+      with:
+        path: ./vendor
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/composer.lock') }}
+    - name: node builder
+      run: |
+        cd wp-content/themes/understrap
+        npm install
+      # any other FE build commands here
+
+    - name: Deployer (Git add,commit,push)
+      env:
+        pantheon_repo: '${{ secrets.PANTHEON_REPO }}'
+      run: |
+        echo "Git Committer Name ${{ github.event.pusher.name }}"
+        echo "Git Committer Email ${{ github.event.pusher.email }}"
+        echo "Github Actor $GITHUB_ACTOR" 
+        echo "Triggering Branch $GITHUB_REF_NAME"
+        git remote add pantheon $pantheon_repo
+        git config --global user.email "danny.pfeiffer@pantheon.io"
+        git config --global user.name "Github Actions"
+        git add .
+        git diff-index --quiet HEAD || git commit -q -m 'Build assets for dev.'
+        git push pantheon HEAD:$GITHUB_REF_NAME
