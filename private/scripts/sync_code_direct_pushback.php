@@ -13,14 +13,6 @@
 * terminus secrets:set {site_id}.dev token ghp_xxxxxxxxxxxxxxxx
 * terminus secrets:set {site_id}.dev git_remote https://github.com/{owner_name}/{your-repository}.git
 * (Note this is the https path.)
-
-
-* SFTP to dev server, navigate to files directory.
-* Create /files/private/.build-secrets directory
-* Enter your github token into tokens.json and place there
-* ie: /files/private/.build-secrets/tokens.json
-* Contents of tokens.json should be as follows:
-* {"token":"ghp_xxxxxxxxxxxxxxxxxxxxxxxxx"}
 *
 */
 
