@@ -47,7 +47,7 @@ $privateFiles = realpath("$bindingDir/files/private");
 $gitSecretsFile = "$privateFiles/secrets.json";
 $gitSecrets = load_git_secrets($gitSecretsFile);
 $git_token = $gitSecrets['token'];
-$git_remote = $gitSecrets['remote'];
+$git_remote = $gitSecrets['git_remote'];
 $auth_string = "$git_token@github.com";
 
 // since we only asked for the https path and token we need to rebuild the url
