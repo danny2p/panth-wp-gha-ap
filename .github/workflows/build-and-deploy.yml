@@ -38,6 +38,7 @@ jobs:
     - name: node builder
       run: |
         cd wp-content/themes/understrap
+        npm install jquery
         npm install
       # any other FE build commands here
 
