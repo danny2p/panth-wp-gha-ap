@@ -55,7 +55,6 @@ deploy:
     - git remote -v
     - git branch -a
     - git status
-    - git log
     - git push pantheon HEAD:$CI_COMMIT_REF_NAME --force --verbose
   only:
     - master
