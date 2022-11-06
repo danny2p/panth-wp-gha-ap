@@ -9,7 +9,7 @@ before_script:
   #use nodesource to grab specific version of node
   - curl -fsSL https://deb.nodesource.com/setup_14.x -o /tmp/nodesource_setup.sh
   - bash /tmp/nodesource_setup.sh
-  - apt-get -y install zip unzip openssh-client git nodejs
+  - apt-get -y install openssh-client git nodejs
   # Setup our SSH key - See https://docs.gitlab.com/ee/ci/ssh_keys/
   - eval $(ssh-agent -s)
   - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
