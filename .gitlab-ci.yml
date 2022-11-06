@@ -17,18 +17,22 @@ before_script:
   #set git author info
   - git config --global user.email "$GITLAB_USER_EMAIL"
   - git config --global user.name "Gitlab CI"
+  
   # install composer (only necessary if we want to use terminus commands)
-  - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-  - php composer-setup.php
-  - php -r "unlink('composer-setup.php');"
+  #- php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+  #- php composer-setup.php
+  #- php -r "unlink('composer-setup.php');"
+  
   #install terminus (only necessary if we want to use terminus commands)
-  - mkdir -p ~/terminus && cd ~/terminus
-  - curl -L https://github.com/pantheon-systems/terminus/releases/download/3.1.0/terminus.phar --output terminus
-  - chmod +x terminus
-  - ./terminus self:update
-  - ln -s ~/terminus/terminus /usr/local/bin/terminus
+  #- mkdir -p ~/terminus && cd ~/terminus
+  #- curl -L https://github.com/pantheon-systems/terminus/releases/download/3.1.0/terminus.phar --output terminus
+  #- chmod +x terminus
+  #- ./terminus self:update
+  #- ln -s ~/terminus/terminus /usr/local/bin/terminus
+  
   #change directory back into project root for subsequent jobs
   - cd $CI_PROJECT_DIR
+  
   #debugging
   - node -v
   - npm -v
