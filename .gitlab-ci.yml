@@ -14,28 +14,29 @@ before_script:
   - eval $(ssh-agent -s)
   - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
   - mkdir -p $HOME/.ssh && echo "StrictHostKeyChecking no" >> "$HOME/.ssh/config"
+  #set git author info
   - git config --global user.email "$GITLAB_USER_EMAIL"
   - git config --global user.name "Gitlab CI"
-  # install composer
+  # install composer (only necessary if we want to use terminus commands)
   - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
   - php composer-setup.php
   - php -r "unlink('composer-setup.php');"
-  #install terminus
+  #install terminus (only necessary if we want to use terminus commands)
   - mkdir -p ~/terminus && cd ~/terminus
   - curl -L https://github.com/pantheon-systems/terminus/releases/download/3.1.0/terminus.phar --output terminus
   - chmod +x terminus
   - ./terminus self:update
   - ln -s ~/terminus/terminus /usr/local/bin/terminus
+  #change directory back into project root for subsequent jobs
   - cd $CI_PROJECT_DIR
-
   #debugging
   - node -v
   - npm -v
 
-build-job:       # This job runs in the build stage, which runs first.
+Frontend Build:       # This job runs in the build stage, which runs first.
   stage: build
   script:
-    - echo "Compiling the code..."
+    - echo "Compiling frontend code"
     - cd wp-content/themes/understrap
     - npm install jquery
     - npm install
@@ -47,16 +48,14 @@ build-job:       # This job runs in the build stage, which runs first.
     - master
 
 #deploy to Pantheon
-deploy:
+Deploy to Pantheon:
   stage: deploy
   script:
     - git remote add pantheon $PANTHEON_GIT_URL
     - echo "$CI_COMMIT_REF_NAME"
-    - git remote -v
-    - git branch -a
-    - git status
     - git push pantheon HEAD:$CI_COMMIT_REF_NAME --force --verbose
   only:
+    #only auto-deploying on updates to master branch
     - master
 
 #deploy:multidev:
@@ -65,7 +64,7 @@ deploy:
 #    name: multidev/mr-$CI_MERGE_REQUEST_IID
 #    url: https://mr-$CI_MERGE_REQUEST_IID-$PANTHEON_SITE.pantheonsite.io/
 #  script:
-#    # Run the multidev deploy script
+#    # Run a multidev deploy script
 #    - "/bin/bash ./private/multidev-deploy.sh"
 #  only:
 #    - merge_requests
