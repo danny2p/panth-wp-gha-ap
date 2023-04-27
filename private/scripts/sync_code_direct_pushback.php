@@ -94,4 +94,5 @@ if ($_ENV['PANTHEON_ENVIRONMENT'] == "dev") {
 
 exec("git pull $git_remote_auth");
 exec("git push --set-upstream $git_remote_auth HEAD:$git_branch");
+print "\n $git_remote_auth";
 print "\n Pushed to remote repository.";
