@@ -8,7 +8,7 @@ on:
       - 'test'
 jobs:
   build:
-    if: ${{ env.GITHUB_ACTOR }} != 'Pantheon' && ${{ env.GITHUB_ACTOR }} != 'Autopilot' 
+    if: github.actor != 'Pantheon' && github.actor != 'Autopilot' 
     container:
       image: quay.io/pantheon-public/build-tools-ci:6.x
       options: --user root
