@@ -5,10 +5,11 @@ on:
       - 'master'
       - 'fe-build'
       - 'sprint23'
-      - 'test'
+      - 'testing'
+      - 'feature1'
 jobs:
   build:
-    if: github.actor != 'Pantheon' && github.actor != 'Autopilot' 
+    if: github.actor != 'Pantheon' && github.actor != 'Autopilot' && github.actor != 'Github Action'
     container:
       image: quay.io/pantheon-public/build-tools-ci:6.x
       options: --user root
@@ -19,7 +20,8 @@ jobs:
       uses: shimataro/ssh-key-action@v2
       with:
         key: ${{ secrets.PANTHEON_SSH_KEY }}
-        known_hosts: ${{ secrets.KNOWN_HOSTS }}    
+        config: ${{ secrets.SSH_CONFIG }}
+        known_hosts: ${{ secrets.KNOWN_HOSTS }}
     - name: Use Node.js 14.
       uses: actions/setup-node@v3
       with:

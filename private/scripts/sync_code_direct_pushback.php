@@ -113,7 +113,13 @@ if (empty($git_token)) {
 * extend this logic as necessary to fit your needs.
 *
 */
-$git_branch = $_ENV['PANTHEON_ENVIRONMENT'];
+
+if ($_ENV['PANTHEON_ENVIRONMENT'] == "dev") {
+  $git_branch = "master";
+} else { #multidev case
+  $git_branch = $_ENV['PANTHEON_ENVIRONMENT'];
+}
+
 exec("git pull $git_remote_auth");
 exec("git push --set-upstream $git_remote_auth HEAD:$git_branch");
 print "\n Pushed to remote repository.";
