@@ -6,6 +6,7 @@ on:
       - 'fe-build'
       - 'sprint23'
       - 'testing'
+      - 'feature1'
 jobs:
   build:
     if: github.actor != 'Pantheon' && github.actor != 'Autopilot' && github.actor != 'Github Action'
