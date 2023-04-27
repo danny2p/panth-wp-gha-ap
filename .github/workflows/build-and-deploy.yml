@@ -46,13 +46,18 @@ jobs:
       env:
         pantheon_site: '${{ secrets.PANTHEON_SITE }}'
         pantheon_machine_token: '${{ secrets.PANTHEON_MACHINE_TOKEN }}'
+        triggering_actor: '${{ github.triggering_actor }}'
       run: |
+        echo "Github Actor before set: $GITHUB_ACTOR"
+        echo "Github Actor ID before set: $GITHUB_ACTOR_ID"
+        echo "Github triggering actor before set: $triggering_actor"
         git config --global user.email "gha@$pantheon_site"
         git config --global user.name "Github Action"
         # Authenticate with Terminus
         terminus -n auth:login --machine-token=$pantheon_machine_token
         # Push our bitbucket code to Pantheon
         echo "Github Actor: $GITHUB_ACTOR"
+        echo "Github Actor ID: $GITHUB_ACTOR_ID"
         echo "Deploying $pantheon_site to Pantheon $GITHUB_REF_NAME branch"
         if [ $GITHUB_REF_NAME = "master" ]
         then
