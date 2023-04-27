@@ -51,13 +51,13 @@ jobs:
         terminus -n auth:login --machine-token=$pantheon_machine_token
         # Push our bitbucket code to Pantheon
         echo "Deploying $pantheon_site to Pantheon $GITHUB_REF_NAME branch"
-        if [[ $GITHUB_REF_NAME != "master" ]]
+        if [ $GITHUB_REF_NAME = "master" ]
         then
-          # Create a new multidev environment (or push to an existing one)
-          echo "Creating Multidev"
-          terminus -n build:env:create $pantheon_site.dev "$GITHUB_REF_NAME" --yes
-        else
           # Push to the dev environment
           echo "Pushing to Dev"
           terminus -n build:env:push $pantheon_site.dev --yes
+        else
+          # Create a new multidev environment (or push to an existing one)
+          echo "Creating Multidev"
+          terminus -n build:env:create $pantheon_site.dev "$GITHUB_REF_NAME" --yes
         fi
