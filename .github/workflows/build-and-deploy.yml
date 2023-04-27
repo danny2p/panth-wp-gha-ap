@@ -55,9 +55,9 @@ jobs:
         then
           # Push to the dev environment
           echo "Pushing to Dev"
-          terminus -n build:env:push $pantheon_site.dev --yes
+         # terminus -n build:env:push $pantheon_site.dev --yes
         else
           # Create a new multidev environment (or push to an existing one)
           echo "Creating Multidev"
-          terminus -n build:env:create $pantheon_site.dev "$GITHUB_REF_NAME" --yes
+          # terminus -n build:env:create $pantheon_site.dev "$GITHUB_REF_NAME" --yes
         fi
