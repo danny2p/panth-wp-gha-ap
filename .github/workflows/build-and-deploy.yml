@@ -43,6 +43,7 @@ jobs:
     - name: Deployer (Git add,commit,push)
       env:
         pantheon_site: '${{ secrets.PANTHEON_SITE }}'
+        github_actor: github.actor
         pantheon_machine_token: '${{ secrets.PANTHEON_MACHINE_TOKEN }}'
       run: |
         git config --global user.email "gha@$pantheon_site"
@@ -50,6 +51,7 @@ jobs:
         # Authenticate with Terminus
         terminus -n auth:login --machine-token=$pantheon_machine_token
         # Push our bitbucket code to Pantheon
+        echo "Github Actor: $github_actor"
         echo "Deploying $pantheon_site to Pantheon $GITHUB_REF_NAME branch"
         if [ $GITHUB_REF_NAME = "master" ]
         then
