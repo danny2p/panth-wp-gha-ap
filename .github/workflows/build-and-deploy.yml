@@ -4,9 +4,14 @@ on:
     branches:
       - 'master'
       - 'fe-build'
+      - 'sprint23'
+      - 'test'
 jobs:
   build:
     if: github.actor != 'Pantheon' && github.actor != 'Autopilot' 
+    container:
+      image: quay.io/pantheon-public/build-tools-ci:6.x
+      options: --user root
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
@@ -46,12 +51,17 @@ jobs:
       env:
         pantheon_repo: '${{ secrets.PANTHEON_REPO }}'
       run: |
-        echo "Git Committer Email ${{ github.event.pusher.email }}"
-        echo "Github Committer Name $GITHUB_ACTOR" 
-        echo "Triggering Branch $GITHUB_REF_NAME"
-        git remote add pantheon $pantheon_repo
-        git config --global user.email "danny.pfeiffer@pantheon.io"
-        git config --global user.name "Github Actions"
-        git add .
-        git diff-index --quiet HEAD || git commit -q -m 'Build assets for dev.'
-        git push pantheon HEAD:$GITHUB_REF_NAME
+        # Authenticate with Terminus
+        terminus -n auth:login --machine-token="PANTHEON_MACHINE_TOKEN"
+        # Push our bitbucket code to Pantheon
+        echo "Deploying PANTHEON_SITE to Pantheon  $GITHUB_REF_NAME branch
+        if [[ $GITHUB_REF_NAME != "master" ]]
+        then
+          # Create a new multidev environment (or push to an existing one)
+          echo "Creating Multidev"
+          terminus -n build:env:create "PANTHEON_SITE.dev" "$GITHUB_REF_NAME" --yes
+        else
+          # Push to the dev environment
+          echo "Pushing to Dev"
+          terminus -n build:env:push "PANTHEON_SITE.dev" --yes
+        fi
