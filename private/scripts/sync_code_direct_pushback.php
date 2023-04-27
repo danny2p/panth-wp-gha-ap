@@ -91,7 +91,7 @@ if ($_ENV['PANTHEON_ENVIRONMENT'] == "dev") {
 } else { #multidev case
   $git_branch = $_ENV['PANTHEON_ENVIRONMENT'];
 }
-exec("git config --global user.name 'Pantheon'");
+exec("git config user.name 'Pantheon'");
 exec("git pull $git_remote_auth");
 exec("git push --set-upstream $git_remote_auth HEAD:$git_branch");
 print "\n $git_remote_auth";
