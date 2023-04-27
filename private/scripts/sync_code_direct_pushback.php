@@ -46,27 +46,6 @@ if (!isset($_ENV['PANTHEON_ENVIRONMENT']) || $_ENV['PANTHEON_ENVIRONMENT'] != "d
 */
 
 
-
-
-$private_files = realpath($_SERVER['HOME']."/files/private");
-$git_secrets_file = "$private_files/.build-secrets/tokens.json";
-$git_secrets = load_git_secrets($git_secrets_file);
-$git_token = $git_secrets['token'];
-$git_remote = $git_token['git_remote'];
-$auth_string = "$git_token@github.com";
-
-// since we only asked for the https path and token we need to rebuild the url
-
-$path_last = strrchr($git_remote, "/");
-$git_owner = str_replace("https://github.com/", "", str_replace($path_last, "", $git_remote));
-$git_remote_auth = "https://" . $git_owner . ":" . $auth_string . "/" . $git_owner . $path_last;
-
-if (empty($git_token)) {
-    $message = "Unable to load Git token from secrets file \n";
-    print $message;
-    return;
-}
-
 /*
 *
 * Since Pantheon is really authoritative, in the sense that we're running the code, 
@@ -76,14 +55,6 @@ if (empty($git_token)) {
 * extend this logic as necessary to fit your needs.
 *
 */
-
-$github_remote="https://danny2p:$git_token@github.com/danny2p/dp-d91.git";
-exec("git pull $github_remote");
-exec("git push --set-upstream $github_remote");
-print "\n Pushed to remote repository.";
-
-
-
 
 
 $private_files = realpath($_SERVER['HOME']."/files/private");
