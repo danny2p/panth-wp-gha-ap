@@ -1,1 +1,1 @@
-{"url":"https://github.com/danny2p/panth-wp-gha-ap","ref":"HEAD","sha":"f06e232d57fc95961af3e562fa2bae029e6bda31","comment":"check commit author instead of actor","commit-date":"2023-04-27 17:59:47 -0600","build-date":"2023-04-28 00:01:34 +0000"}
+{"url":"https://github.com/danny2p/panth-wp-gha-ap","ref":"HEAD","sha":"1bf6aa40747d84098ec10962a006b4b23db1b3cc","comment":"Add some comments, use commit author for conditional check","commit-date":"2023-04-27 18:24:41 -0600","build-date":"2023-04-28 00:26:55 +0000"}
