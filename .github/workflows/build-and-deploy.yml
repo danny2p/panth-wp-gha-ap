@@ -9,7 +9,9 @@ on:
       - 'feature1'
 jobs:
   build:
-    if: github.actor != 'Pantheon' && github.actor != 'Autopilot' && github.event.commits[0].author.name != 'Github Action'
+    # Check the committer so we don't get an infinite loop of quicksilver <-> GHA deployments 
+    # If Autopilot updates content and pushes back to Github, we don't want this Github action trying to push back to Pantheon
+    if: github.event.commits[0].author.name != 'Pantheon' && github.event.commits[0].author.name != 'Autopilot' && github.event.commits[0].author.name != 'Github Action'
     container:
       image: quay.io/pantheon-public/build-tools-ci:6.x
       options: --user root
