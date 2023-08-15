@@ -45,18 +45,6 @@ if (!isset($_ENV['PANTHEON_ENVIRONMENT']) || $_ENV['PANTHEON_ENVIRONMENT'] != "d
 }
 */
 
-
-/*
-*
-* Since Pantheon is really authoritative, in the sense that we're running the code, 
-* we'll try to automatically push back to Github master.
-* In most cases this should be safe if commits to Github master
-* branch are always being pushed to Pantheon.
-* extend this logic as necessary to fit your needs.
-*
-*/
-
-
 $private_files = realpath($_SERVER['HOME']."/files/private");
 $git_secrets_file = "$private_files/secrets.json";
 $git_secrets = load_git_secrets($git_secrets_file);
@@ -79,7 +67,8 @@ if (empty($git_token)) {
 /*
 *
 * Since Pantheon is really authoritative, in the sense that we're running the code, 
-* we'll try to automatically push back to Github master.
+* we'll try to automatically push back to Github for the branch we're on.
+* ie: master for the dev environment.
 * In most cases this should be safe if commits to Github master
 * branch are always being pushed to Pantheon.
 * extend this logic as necessary to fit your needs.
