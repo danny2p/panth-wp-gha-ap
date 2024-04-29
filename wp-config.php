@@ -48,7 +48,7 @@ if (file_exists(dirname(__FILE__) . '/wp-config-pantheon.php') && isset($_ENV['P
 	define('NONCE_SALT',       'put your unique phrase here');
 }
 
-
+/** New code snippet given by Pantheon */
 if ($_SERVER["HTTP_HOST"] == "msf.ca" || $_SERVER["HTTP_HOST"] == "dev-wp-gh-actions-ap.pantheonsite.io" ) {
 	header('HTTP/1.0 301 Moved Permanently');
 	header('Location: https://www.doctorswithoutborders.ca/');
