@@ -49,6 +49,13 @@ if (file_exists(dirname(__FILE__) . '/wp-config-pantheon.php') && isset($_ENV['P
 }
 
 
+if ($_SERVER["HTTP_HOST"] == "msf.ca" || $_SERVER["HTTP_HOST"] == "dev-wp-gh-actions-ap.pantheonsite.io" ) {
+	header('HTTP/1.0 301 Moved Permanently');
+	header('Location: https://www.doctorswithoutborders.ca/');
+	}
+	/** 
+
+	
 /** Standard wp-config.php stuff from here on down. **/
 
 /**
